@@ -15,7 +15,7 @@ namespace FormsApp.Models
     public partial class PlayerControl : UserControl
     {
         public Player player;
-        private IRepo _repo;
+        private readonly IRepo _repo;
         
 
         public PlayerControl(Player p, IRepo repo)

@@ -50,6 +50,11 @@ namespace DAL.Models
 
         [JsonProperty("goal_differential")]
         public int GoalDifferential { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Country.ToUpper()} ({FifaCode.ToUpper()})";
+        }
     }
 
     public partial class TeamResult
