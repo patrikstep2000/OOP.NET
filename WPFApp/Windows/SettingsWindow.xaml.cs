@@ -24,18 +24,22 @@ namespace WPFApp.Windows
         public string Lang { get; set; }
         public Resolution Resolution { get; set; }
 
-        public SettingsWindow()
+        public SettingsWindow(AppSettings settings)
         {
             InitializeComponent();
-            SetSelectedWc();
-            SetSelectedLanguage();
+            if (settings != null)
+            {
+                SetSelectedWc(settings.WorldCup);
+                SetSelectedLanguage(settings.Language);
+                SetSelectedResolution(settings.Resolution);
+            }
         }
 
-        private void SetSelectedLanguage()
+        private void SetSelectedLanguage(string lang)
         {
-            if (Lang != null)
+            if (lang != null)
             {
-                if (Lang == "english")
+                if (lang == "english")
                 {
                     btnEnglish.IsChecked = true;
                 }
@@ -46,11 +50,11 @@ namespace WPFApp.Windows
             }
         }
 
-        private void SetSelectedWc()
+        private void SetSelectedWc(string wc)
         {
-            if (WorldCup != null)
+            if (wc != null)
             {
-                if (WorldCup == "men")
+                if (wc == "men")
                 {
                     btnMen.IsChecked = true;
                 }
@@ -63,16 +67,20 @@ namespace WPFApp.Windows
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            WorldCup = (bool)btnMen.IsChecked ? "men" : "women";
-            Lang = (bool)btnCroatian.IsChecked ? "croatian" : "english";
-            Resolution = GetResolution();
-            DialogResult = true;
-            Close();
+            ConfirmDialog cd = new ConfirmDialog("Confirm settings");
+            if (cd.ShowDialog() == true)
+            {
+                WorldCup = (bool)btnMen.IsChecked ? "men" : "women";
+                Lang = (bool)btnCroatian.IsChecked ? "croatian" : "english";
+                Resolution = GetResolution();
+                DialogResult = true;
+                Close(); 
+            }
         }
 
-        public void SetSelectedResolution()
+        public void SetSelectedResolution(Resolution res)
         {
-            switch (Resolution)
+            switch (res)
             {
                 case Resolution.Undefined:
                     cbResolution.SelectedIndex = 0;

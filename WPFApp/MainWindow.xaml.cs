@@ -34,6 +34,7 @@ namespace WPFApp
         private SettingsWindow settingsWindow;
         private FavouriteTeamWindow favouriteTeamWindow;
         private VersusTeamWindow versusTeamWindow;
+        private ConfirmDialog confirm;
 
         private LoadingWindow loadingWindow;
         private TeamStatsWindow statsWindow;
@@ -110,30 +111,33 @@ namespace WPFApp
                 return;
             }
 
-            IList<Team> versusTeams = new List<Team>();
-            if (matches != null)
+            if (versusTeam == null)
             {
-                foreach (Match m in matches)
+                IList<Team> versusTeams = new List<Team>();
+                if (matches != null)
                 {
-                    if (m.HomeTeamCountry == settings.FavouriteTeam.Country)
+                    foreach (Match m in matches)
                     {
-                        versusTeams.Add(_teams.FirstOrDefault(t => t.Country == m.AwayTeamCountry));
-                    }
-                    else if (m.AwayTeamCountry == settings.FavouriteTeam.Country)
-                    {
-                        versusTeams.Add(_teams.FirstOrDefault(t => t.Country == m.HomeTeamCountry));
+                        if (m.HomeTeamCountry == settings.FavouriteTeam.Country)
+                        {
+                            versusTeams.Add(_teams.FirstOrDefault(t => t.Country == m.AwayTeamCountry));
+                        }
+                        else if (m.AwayTeamCountry == settings.FavouriteTeam.Country)
+                        {
+                            versusTeams.Add(_teams.FirstOrDefault(t => t.Country == m.HomeTeamCountry));
+                        }
                     }
                 }
-            }
 
-            if (versusTeams != null)
-            {
-                versusTeamWindow = new VersusTeamWindow(versusTeams);
-                if (versusTeamWindow.ShowDialog() != null)
+                if (versusTeams != null)
                 {
-                    versusTeam = versusTeamWindow.VersusTeam;
-                    lbVersusTeam.Content = versusTeam;
-                }
+                    versusTeamWindow = new VersusTeamWindow(versusTeams);
+                    if (versusTeamWindow.ShowDialog() != null)
+                    {
+                        versusTeam = versusTeamWindow.VersusTeam;
+                        lbVersusTeam.Content = versusTeam;
+                    }
+                } 
             }
 
             try
@@ -160,6 +164,7 @@ namespace WPFApp
                 LoadPlayers();
             }
         }
+
 
         private void LoadPlayers()
         {
@@ -188,7 +193,6 @@ namespace WPFApp
                 }
             }
         }
-
         private void AppendAwayPlayer(Player player, Color color)
         {
             MiniPlayerControl pc = new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color);
@@ -229,7 +233,6 @@ namespace WPFApp
                     break;
             }
         }
-
         private void PlayerControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MiniPlayerControl mpc = (MiniPlayerControl)sender;
@@ -244,12 +247,7 @@ namespace WPFApp
                 settings = repo.GetSettings();
                 if (settings.Resolution == Resolution.Undefined)
                 {
-                    settingsWindow = new SettingsWindow
-                    {
-                        Resolution = Resolution.Undefined,
-                        WorldCup = settings.WorldCup,
-                        Lang = settings.Language
-                    };
+                    settingsWindow = new SettingsWindow(settings);
 
                     if (settingsWindow.ShowDialog() == true)
                     {
@@ -263,7 +261,7 @@ namespace WPFApp
             catch
             {
                 settings = new AppSettings();
-                settingsWindow = new SettingsWindow();
+                settingsWindow = new SettingsWindow(settings);
                 if (settingsWindow.ShowDialog() == true)
                 {
                     settings.WorldCup = settingsWindow.WorldCup;
@@ -279,16 +277,26 @@ namespace WPFApp
             {
                 return;
             }
-            settingsWindow = new SettingsWindow
-            {
-                Lang = settings.Language,
-                Resolution = settings.Resolution,
-                WorldCup = settings.WorldCup
-            };
+            settingsWindow = new SettingsWindow(settings);
+            string wc = null;
             if (settingsWindow.ShowDialog() == true)
             {
-                settings
+                wc = settingsWindow.WorldCup;
+                settings.Language = settingsWindow.Lang;
+                settings.Resolution = settingsWindow.Resolution;
             }
+            ApplyResolution();
+            if (wc != settings.WorldCup)
+            {
+                settings.WorldCup = wc;
+                ClearChildren();
+                settings.FavouriteTeam = null;
+                _teams = null;
+                versusTeam = null;
+            }
+            ClearChildren();
+            ApplyResolution();
+            StartApp(); 
         }
         private void ApplyResolution()
         {
@@ -327,12 +335,18 @@ namespace WPFApp
                     WindowStyle = WindowStyle.SingleBorderWindow;
                     Width = 800;
                     Height = 600;
+                    FieldGrid.Width = 250;
+                    FieldGrid.Height = 375;
                     miniPlayerSize = new Size(25, 25);
                     miniPlayerMargin = 10;
                     break;
                 default:
                     WindowState = WindowState.Maximized;
                     WindowStyle = WindowStyle.None;
+                    FieldGrid.Width = 600;
+                    FieldGrid.Height = 900;
+                    miniPlayerSize = new Size(50, 50);
+                    miniPlayerMargin = 30;
                     break;
             }
         }
@@ -440,6 +454,7 @@ namespace WPFApp
         }
 
 
+        //menu items
         private void miFavouriteTeam_Click(object sender, RoutedEventArgs e)
         {
             if (isLoading)
@@ -464,12 +479,12 @@ namespace WPFApp
                 StartApp();
             }
         }
-
         private void miVersusTeam_Click(object sender, RoutedEventArgs e)
         {
-
+            versusTeam = null;
+            ClearChildren();
+            StartApp();
         }
-
         private void miSettings_Click(object sender, RoutedEventArgs e)
         {
             if (isLoading)
@@ -478,21 +493,31 @@ namespace WPFApp
             }
             ChangeSettings();
         }
-
         private void miExit_Click(object sender, RoutedEventArgs e)
         {
 
+            this.Close();
         }
+
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            try
+            confirm = new ConfirmDialog("Exit?");   
+            if (confirm.ShowDialog() == true)
             {
-                repo.SaveSettings(settings);
+                e.Cancel = false;
+                try
+                {
+                    repo.SaveSettings(settings);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                } 
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
+                e.Cancel = true;
             }
             base.OnClosing(e);
         }

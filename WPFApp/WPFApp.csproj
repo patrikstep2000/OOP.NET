@@ -95,6 +95,9 @@
     <Compile Include="Models\MiniPlayerControl.xaml.cs">
       <DependentUpon>MiniPlayerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ConfirmDialog.xaml.cs">
+      <DependentUpon>ConfirmDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\FavouriteTeamWindow.xaml.cs">
       <DependentUpon>FavouriteTeamWindow.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Models\MiniPlayerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ConfirmDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

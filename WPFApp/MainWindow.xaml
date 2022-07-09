@@ -38,7 +38,7 @@
                 <Button x:Name="btnFavouriteTeamStats" Content="Stats" Width="100" Height="35" Click="BtnFavouriteTeamStats_Click" />
             </WrapPanel>
             <WrapPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-                <Label x:Name="lbScore" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                <Label x:Name="lbScore" Content="" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                 <Grid x:Name="FieldGrid" Height="375" Width="250" MinWidth="200" MinHeight="300" ClipToBounds="True">
                     <Grid.Background>
                         <ImageBrush ImageSource="./Resources/footbal_field.png"/>
