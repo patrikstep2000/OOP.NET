@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Interop;
+using WPFApp.Windows;
 
 namespace WPFApp.Models
 {
@@ -23,9 +24,11 @@ namespace WPFApp.Models
     /// </summary>
     public partial class MiniPlayerControl : UserControl
     {
+        public Player player;
         public MiniPlayerControl(Player player, Size size, int margin, Color color)
         {
             InitializeComponent();
+            this.player = player;
             Width = size.Width;
             Height = size.Height;
             Margin = new Thickness(margin, 0, margin, 0);
@@ -33,20 +36,5 @@ namespace WPFApp.Models
             lbNumber.Content = player.ShirtNumber.ToString();
         }
 
-        public System.Windows.Media.Brush CreateBrushFromBitmap(System.Drawing.Bitmap bitmap)
-        {
-            BitmapSource bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(
-                bitmap.GetHbitmap(),
-                IntPtr.Zero,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions());
-
-            return new ImageBrush(bitmapSource);
-        }
-
-        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 }

@@ -95,17 +95,17 @@
     <Compile Include="Models\MiniPlayerControl.xaml.cs">
       <DependentUpon>MiniPlayerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\PlayerControl.xaml.cs">
-      <DependentUpon>PlayerControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\FavouriteTeamWindow.xaml.cs">
       <DependentUpon>FavouriteTeamWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\InitialSettingsWindow.xaml.cs">
-      <DependentUpon>InitialSettingsWindow.xaml</DependentUpon>
+    <Compile Include="Windows\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\LoadingWindow.xaml.cs">
       <DependentUpon>LoadingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PlayerInfoWindow.xaml.cs">
+      <DependentUpon>PlayerInfoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\TeamStatsWindow.xaml.cs">
       <DependentUpon>TeamStatsWindow.xaml</DependentUpon>
@@ -129,19 +129,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Models\PlayerControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\FavouriteTeamWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\InitialSettingsWindow.xaml">
+    <Page Include="Windows\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LoadingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PlayerInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

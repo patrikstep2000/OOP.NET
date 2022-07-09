@@ -33,9 +33,9 @@ namespace WPFApp.Windows
             lbWins.Content += $"\t\t{result.Wins}";
             lbLost.Content += $"\t\t{result.Losses}";
             lbDraws.Content += $"\t\t{result.Draws}";
-            lbDifferential.Content += $"\t\t{result.GoalDifferential}";
-            lbScored.Content += $"\t\t\t{result.GoalsFor}";
-            lbReceived.Content += $"\t\t{result.GoalsAgainst}";
+            lbDifferential.Content += $"\t{result.GoalDifferential}";
+            lbScored.Content += $"\t\t{result.GoalsFor}";
+            lbReceived.Content += $"\t{result.GoalsAgainst}";
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

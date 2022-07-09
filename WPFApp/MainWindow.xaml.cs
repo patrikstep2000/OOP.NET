@@ -28,10 +28,10 @@ namespace WPFApp
         private readonly IRepo repo;
         private AppSettings settings;
 
-        private Size miniPlayerSize = new Size(30, 30);
+        private Size miniPlayerSize;
         private int miniPlayerMargin;
 
-        private InitialSettingsWindow settingsWindow = new InitialSettingsWindow();
+        private SettingsWindow settingsWindow;
         private FavouriteTeamWindow favouriteTeamWindow;
         private VersusTeamWindow versusTeamWindow;
 
@@ -41,6 +41,8 @@ namespace WPFApp
         private IList<Team> _teams;
         private Team versusTeam;
         private Match match;
+
+        private bool isLoading = false;
 
         public MainWindow()
         {
@@ -54,9 +56,12 @@ namespace WPFApp
         {
             try
             {
-                ShowLoading();
-                _teams = await Task.Run(LoadTeams);
-                CloseLoading();
+                if (_teams == null)
+                {
+                    ShowLoading();
+                    _teams = await Task.Run(LoadTeams);
+                    CloseLoading();
+                }
             }
             catch (Exception e)
             {
@@ -80,6 +85,10 @@ namespace WPFApp
                     MessageBox.Show("Can't load teams.");
                     return;
                 }
+            }
+            else
+            {
+                lbFavouriteTeam.Content = settings.FavouriteTeam;
             }
 
             if (settings.FavouriteTeam == null)
@@ -114,7 +123,7 @@ namespace WPFApp
                     {
                         versusTeams.Add(_teams.FirstOrDefault(t => t.Country == m.HomeTeamCountry));
                     }
-                } 
+                }
             }
 
             if (versusTeams != null)
@@ -126,7 +135,7 @@ namespace WPFApp
                     lbVersusTeam.Content = versusTeam;
                 }
             }
-            
+
             try
             {
                 ShowLoading();
@@ -182,39 +191,50 @@ namespace WPFApp
 
         private void AppendAwayPlayer(Player player, Color color)
         {
+            MiniPlayerControl pc = new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color);
+            pc.MouseLeftButtonDown += PlayerControl_MouseLeftButtonDown;
             switch (player.Position)
             {
                 case "Goalie":
-                    wpAwayGoalie.Children.Add(new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color));
+                    wpAwayGoalie.Children.Add(pc);
                     break;
                 case "Defender":
-                    wpAwayDefenders.Children.Add(new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color));
+                    wpAwayDefenders.Children.Add(pc);
                     break;
                 case "Midfield":
-                    wpAwayMidfielders.Children.Add(new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color));
+                    wpAwayMidfielders.Children.Add(pc);
                     break;
                 case "Forward":
-                    wpAwayAttackers.Children.Add(new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color));
+                    wpAwayAttackers.Children.Add(pc);
                     break;
             }
         }
         private void AppendHomePlayer(Player player, Color color)
         {
+            MiniPlayerControl pc = new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color);
+            pc.MouseLeftButtonDown += PlayerControl_MouseLeftButtonDown;
             switch (player.Position)
             {
                 case "Goalie":
-                    wpHomeGoalie.Children.Add(new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color));
+                    wpHomeGoalie.Children.Add(pc);
                     break;
                 case "Defender":
-                    wpHomeDefenders.Children.Add(new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color));
+                    wpHomeDefenders.Children.Add(pc);
                     break;
                 case "Midfield":
-                    wpHomeMidfielders.Children.Add(new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color));
+                    wpHomeMidfielders.Children.Add(pc);
                     break;
                 case "Forward":
-                    wpHomeAttackers.Children.Add(new MiniPlayerControl(player, miniPlayerSize, miniPlayerMargin, color));
+                    wpHomeAttackers.Children.Add(pc);
                     break;
             }
+        }
+
+        private void PlayerControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MiniPlayerControl mpc = (MiniPlayerControl)sender;
+            PlayerInfoWindow playerInfo = new PlayerInfoWindow(mpc.player, match);
+            playerInfo.Show();
         }
 
         private void LoadSettings()
@@ -224,25 +244,14 @@ namespace WPFApp
                 settings = repo.GetSettings();
                 if (settings.Resolution == Resolution.Undefined)
                 {
-                    if (settings.WorldCup == "men")
+                    settingsWindow = new SettingsWindow
                     {
-                        settingsWindow.btnMen.IsChecked = true;
-                    }
-                    else
-                    {
-                        settingsWindow.btnWomen.IsChecked = true;
-                    }
+                        Resolution = Resolution.Undefined,
+                        WorldCup = settings.WorldCup,
+                        Lang = settings.Language
+                    };
 
-                    if (settings.Language == "croatian")
-                    {
-                        settingsWindow.btnCroatian.IsChecked = true;
-                    }
-                    else
-                    {
-                        settingsWindow.btnEnglish.IsChecked = true;
-                    }
-
-                    if (settingsWindow.ShowDialog() != null)
+                    if (settingsWindow.ShowDialog() == true)
                     {
                         settings.WorldCup = settingsWindow.WorldCup;
                         settings.Language = settingsWindow.Lang;
@@ -254,13 +263,31 @@ namespace WPFApp
             catch
             {
                 settings = new AppSettings();
-                if (settingsWindow.ShowDialog() != null)
+                settingsWindow = new SettingsWindow();
+                if (settingsWindow.ShowDialog() == true)
                 {
                     settings.WorldCup = settingsWindow.WorldCup;
                     settings.Language = settingsWindow.Lang;
                     settings.Resolution = settingsWindow.Resolution;
                     ApplyResolution();
                 }
+            }
+        }
+        private void ChangeSettings()
+        {
+            if (settings == null)
+            {
+                return;
+            }
+            settingsWindow = new SettingsWindow
+            {
+                Lang = settings.Language,
+                Resolution = settings.Resolution,
+                WorldCup = settings.WorldCup
+            };
+            if (settingsWindow.ShowDialog() == true)
+            {
+                settings
             }
         }
         private void ApplyResolution()
@@ -272,7 +299,7 @@ namespace WPFApp
                     WindowStyle = WindowStyle.None;
                     FieldGrid.Width = 600;
                     FieldGrid.Height = 900;
-                    miniPlayerSize = new Size(70, 70);
+                    miniPlayerSize = new Size(50, 50);
                     miniPlayerMargin = 30;
                     break;
                 case Resolution.Large:
@@ -282,7 +309,7 @@ namespace WPFApp
                     Height = 900;
                     FieldGrid.Width = 400;
                     FieldGrid.Height = 600;
-                    miniPlayerSize = new Size(45, 45);
+                    miniPlayerSize = new Size(40, 40);
                     miniPlayerMargin = 20;
                     break;
                 case Resolution.Medium:
@@ -292,7 +319,7 @@ namespace WPFApp
                     Height = 750;
                     FieldGrid.Width = 300;
                     FieldGrid.Height = 450;
-                    miniPlayerSize = new Size(40, 40);
+                    miniPlayerSize = new Size(30, 30);
                     miniPlayerMargin = 15;
                     break;
                 case Resolution.Small:
@@ -314,12 +341,14 @@ namespace WPFApp
         //Loading functions
         private void ShowLoading()
         {
+            isLoading = true;
             loadingWindow = new LoadingWindow();
             loadingWindow.Show();
         }
         private void CloseLoading()
         {
             loadingWindow.Close();
+            isLoading = false;
         }
 
 
@@ -397,12 +426,69 @@ namespace WPFApp
             statsWindow.Show();
         }
 
+        private void ClearChildren()
+        {
+            lbFavouriteTeam.Content = settings.FavouriteTeam;
+            wpAwayAttackers.Children.Clear();
+            wpAwayDefenders.Children.Clear();
+            wpAwayGoalie.Children.Clear();
+            wpAwayMidfielders.Children.Clear();
+            wpHomeAttackers.Children.Clear();
+            wpHomeDefenders.Children.Clear();
+            wpHomeGoalie.Children.Clear();
+            wpHomeMidfielders.Children.Clear();
+        }
+
+
+        private void miFavouriteTeam_Click(object sender, RoutedEventArgs e)
+        {
+            if (isLoading)
+            {
+                return;
+            }
+            if (_teams == null)
+            {
+                return;
+            }
+            favouriteTeamWindow = new FavouriteTeamWindow(_teams)
+            {
+                FavouriteTeam = settings.FavouriteTeam
+            };
+            if (favouriteTeamWindow.ShowDialog() == true)
+            {
+                settings.FavouriteTeam = favouriteTeamWindow.FavouriteTeam;
+                versusTeam = null;
+                match = null;
+
+                ClearChildren();
+                StartApp();
+            }
+        }
+
+        private void miVersusTeam_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void miSettings_Click(object sender, RoutedEventArgs e)
+        {
+            if (isLoading)
+            {
+                return;
+            }
+            ChangeSettings();
+        }
+
+        private void miExit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
 
         protected override void OnClosing(CancelEventArgs e)
         {
             try
             {
-                //repo.SaveSettings(settings);
+                repo.SaveSettings(settings);
             }
             catch (Exception ex)
             {
@@ -410,5 +496,6 @@ namespace WPFApp
             }
             base.OnClosing(e);
         }
+
     }
 }

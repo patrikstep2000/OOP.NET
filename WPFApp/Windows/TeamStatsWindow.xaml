@@ -5,33 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFApp.Windows"
         mc:Ignorable="d"
-        Title="TeamStatsWindow" Height="450" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" BorderBrush="Black" Background="#FFEBE3E3">
-    <Grid>
-        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
-            <Label x:Name="lbTeamStatsTitle" Content="Stats" FontSize="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label x:Name="lbTeamName" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        Title="TeamStatsWindow" Height="450" Width="550" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
+    <Border BorderBrush="Black" BorderThickness="1">
+        <Grid>
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
+                <Label x:Name="lbTeamStatsTitle" Content="Stats" FontSize="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Label x:Name="lbTeamName" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
-            <Grid Width="500">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+                <Grid Width="550">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                <WrapPanel Grid.Column="0" HorizontalAlignment="Center" Orientation="Vertical">
-                    <Label x:Name="lbMatches" Content="Matches" Margin="0, 20" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                    <Label x:Name="lbPlayed" Content="Played: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                    <Label x:Name="lbWins" Content="Wins: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                    <Label x:Name="lbLost" Content="Losses: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                    <Label x:Name="lbDraws" Content="Draws: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                </WrapPanel>
-                <WrapPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Vertical">
-                    <Label x:Name="lbGoals" Content="Goals" Margin="0, 20" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                    <Label x:Name="lbScored" Content="Scored: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                    <Label x:Name="lbReceived" Content="Received: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                    <Label x:Name="lbDifferential" Content="Differential: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                </WrapPanel>
-            </Grid>
-        </WrapPanel>
-        <Button x:Name="btnClose" Click="btnClose_Click" Width="200" Content="Close" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" IsCancel="True"/>
-    </Grid>
+                    <WrapPanel Grid.Column="0" HorizontalAlignment="Center" Orientation="Vertical">
+                        <Label x:Name="lbMatches" Content="Matches" Margin="0, 20" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <Label x:Name="lbPlayed" Content="Played: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                        <Label x:Name="lbWins" Content="Wins: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                        <Label x:Name="lbLost" Content="Losses: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                        <Label x:Name="lbDraws" Content="Draws: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Vertical">
+                        <Label x:Name="lbGoals" Content="Goals" Margin="0, 20" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <Label x:Name="lbScored" Content="Scored: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                        <Label x:Name="lbReceived" Content="Received: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                        <Label x:Name="lbDifferential" Content="Differential: " FontSize="15" Width="200" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                    </WrapPanel>
+                </Grid>
+            </WrapPanel>
+            <Button x:Name="btnClose" Click="btnClose_Click" Width="200" Content="Close" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" IsCancel="True"/>
+        </Grid>
+    </Border>
 </Window>

@@ -18,15 +18,47 @@ namespace WPFApp.Windows
     /// <summary>
     /// Interaction logic for Settings.xaml
     /// </summary>
-    public partial class InitialSettingsWindow : Window
+    public partial class SettingsWindow : Window
     {
         public string WorldCup { get; set; }
         public string Lang { get; set; }
         public Resolution Resolution { get; set; }
 
-        public InitialSettingsWindow()
+        public SettingsWindow()
         {
             InitializeComponent();
+            SetSelectedWc();
+            SetSelectedLanguage();
+        }
+
+        private void SetSelectedLanguage()
+        {
+            if (Lang != null)
+            {
+                if (Lang == "english")
+                {
+                    btnEnglish.IsChecked = true;
+                }
+                else
+                {
+                    btnCroatian.IsChecked = true;
+                }
+            }
+        }
+
+        private void SetSelectedWc()
+        {
+            if (WorldCup != null)
+            {
+                if (WorldCup == "men")
+                {
+                    btnMen.IsChecked = true;
+                }
+                else
+                {
+                    btnWomen.IsChecked = true;
+                }
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -36,6 +68,28 @@ namespace WPFApp.Windows
             Resolution = GetResolution();
             DialogResult = true;
             Close();
+        }
+
+        public void SetSelectedResolution()
+        {
+            switch (Resolution)
+            {
+                case Resolution.Undefined:
+                    cbResolution.SelectedIndex = 0;
+                    break;
+                case Resolution.Fullscreen:
+                    cbResolution.SelectedIndex = 0;
+                    break;
+                case Resolution.Large:
+                    cbResolution.SelectedIndex = 1;
+                    break;
+                case Resolution.Medium:
+                    cbResolution.SelectedIndex = 2;
+                    break;
+                case Resolution.Small:
+                    cbResolution.SelectedIndex = 3;
+                    break;
+            }
         }
 
         private Resolution GetResolution()

@@ -26,6 +26,11 @@ namespace WPFApp.Windows
         {
             InitializeComponent();
             cbTeams.ItemsSource = teams;
+            SetFavouriteTeam();
+        }
+
+        public void SetFavouriteTeam()
+        {
             if (FavouriteTeam != null)
             {
                 cbTeams.SelectedIndex = cbTeams.Items.IndexOf(FavouriteTeam);
