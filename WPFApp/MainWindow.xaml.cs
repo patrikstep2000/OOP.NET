@@ -349,6 +349,7 @@ namespace WPFApp
                     miniPlayerMargin = 30;
                     break;
             }
+            
         }
 
 

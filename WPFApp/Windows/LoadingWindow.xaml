@@ -6,7 +6,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:WPFApp.Windows"
         mc:Ignorable="d"
-        Title="LoadingWindow" Height="200" Width="200" WindowStartupLocation="CenterScreen" Topmost="True" WindowStyle="None">
+        Title="LoadingWindow" Height="200" Width="200" WindowStartupLocation="CenterScreen" Topmost="True" WindowStyle="None" ResizeMode="NoResize">
     <Grid>
         <Label HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Height="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16">Loading...</Label>
         <fa:ImageAwesome Icon="Spinner" Spin="True" Height="80" Width="80" Margin="0,20,0,0"/>
