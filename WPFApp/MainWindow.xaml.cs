@@ -308,7 +308,7 @@ namespace WPFApp
                     FieldGrid.Width = 600;
                     FieldGrid.Height = 900;
                     miniPlayerSize = new Size(50, 50);
-                    miniPlayerMargin = 30;
+                    miniPlayerMargin = 20;
                     break;
                 case Resolution.Large:
                     WindowState = WindowState.Normal;
@@ -318,7 +318,7 @@ namespace WPFApp
                     FieldGrid.Width = 400;
                     FieldGrid.Height = 600;
                     miniPlayerSize = new Size(40, 40);
-                    miniPlayerMargin = 20;
+                    miniPlayerMargin = 10;
                     break;
                 case Resolution.Medium:
                     WindowState = WindowState.Normal;
@@ -328,7 +328,7 @@ namespace WPFApp
                     FieldGrid.Width = 300;
                     FieldGrid.Height = 450;
                     miniPlayerSize = new Size(30, 30);
-                    miniPlayerMargin = 15;
+                    miniPlayerMargin = 8;
                     break;
                 case Resolution.Small:
                     WindowState = WindowState.Normal;
@@ -338,7 +338,7 @@ namespace WPFApp
                     FieldGrid.Width = 250;
                     FieldGrid.Height = 375;
                     miniPlayerSize = new Size(25, 25);
-                    miniPlayerMargin = 10;
+                    miniPlayerMargin = 5;
                     break;
                 default:
                     WindowState = WindowState.Maximized;
@@ -346,7 +346,7 @@ namespace WPFApp
                     FieldGrid.Width = 600;
                     FieldGrid.Height = 900;
                     miniPlayerSize = new Size(50, 50);
-                    miniPlayerMargin = 30;
+                    miniPlayerMargin = 20;
                     break;
             }
             

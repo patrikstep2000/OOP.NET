@@ -25,10 +25,13 @@ namespace WPFApp.Models
     public partial class MiniPlayerControl : UserControl
     {
         public Player player;
-        public MiniPlayerControl(Player player, Size size, int margin, Color color)
+        private Color color;
+        private Color selectedColor = Color.FromRgb(100, 100, 100);
+        public MiniPlayerControl(Player player, Size size, int margin, Color c)
         {
             InitializeComponent();
             this.player = player;
+            color = c;
             Width = size.Width;
             Height = size.Height;
             Margin = new Thickness(margin, 0, margin, 0);
@@ -36,5 +39,14 @@ namespace WPFApp.Models
             lbNumber.Content = player.ShirtNumber.ToString();
         }
 
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            border.Background = new SolidColorBrush(selectedColor);
+        }
+
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            border.Background = new SolidColorBrush(color);
+        }
     }
 }

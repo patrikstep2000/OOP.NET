@@ -4,8 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFApp.Windows"
-        mc:Ignorable="d"
-        Title="PlayerInfoWindow" Height="500" Width="450" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize">
+        mc:Ignorable="d" x:Name="playerWindow"
+        Title="PlayerInfoWindow" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Width="450" Height="500">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard Duration="0:0:5">
+                    <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="500" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
     <Border BorderBrush="Black" BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>

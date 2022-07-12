@@ -147,14 +147,6 @@
     <Compile Include="Models\PlayerYellowCardRankingsControl.Designer.cs">
       <DependentUpon>PlayerYellowCardRankingsControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\SpinningCircles.cs">
-      <SubType>UserControl</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Models\SpinningCircles.Designer.cs">
-      <DependentUpon>SpinningCircles.cs</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\ConfirmForm.hr.resx">

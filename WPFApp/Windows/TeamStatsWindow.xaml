@@ -6,6 +6,15 @@
         xmlns:local="clr-namespace:WPFApp.Windows"
         mc:Ignorable="d"
         Title="TeamStatsWindow" Height="450" Width="550" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard Duration="00:00:3" Storyboard.TargetProperty="Opacity">
+                    <DoubleAnimation From="0" To="1"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
     <Border BorderBrush="Black" BorderThickness="1">
         <Grid>
             <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
